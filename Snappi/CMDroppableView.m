@@ -100,42 +100,59 @@
 }
 
 -(BOOL)performDragOperation:(id <NSDraggingInfo>)sender{
-    NSPasteboard *pasteboard = [sender draggingPasteboard];
-    if ([[pasteboard types] containsObject:NSFilenamesPboardType])
-    {
-        NSData* data = [pasteboard dataForType:NSFilenamesPboardType];
-        if (data)
-        {
-            NSString* errorDescription;
-            NSArray* filenames = [NSPropertyListSerialization
-                                  propertyListFromData:data
-                                  mutabilityOption:kCFPropertyListImmutable
-                                  format:nil
-                                  errorDescription:&errorDescription];
-            
-            NSMutableArray *itemPaths = [[[NSMutableArray alloc] init] autorelease];
-            NSMutableArray *itemExts  = [[[NSMutableArray alloc] init] autorelease];
-            
-            for (NSString* filename in filenames)
-            {   
-//                NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"file://localhost%@", filename]];
-//                NSString *path = [url path]; 
-                [itemPaths addObject: filename];
-                [itemExts  addObject:[filename pathExtension]];
-            }
-            NSLog(@"%@",itemPaths);
-            NSArray *args = [NSArray arrayWithObjects:itemPaths, itemExts, [NSNumber numberWithBool:true], nil];
-//            NSLog(@"About to take the screenshot");
-            if (args && [args count] > 0)
-                [AppController performSelector:@selector(takeScreenshotWrapper:)
-                                    withObject:args afterDelay:1];
-            
-//            [AppController takeScreenshot:itemPaths :itemExts :true];
-            return YES;
-        }
-    }
+/*     NSPasteboard *pasteboard = [sender draggingPasteboard]; */
+/*     if ([[pasteboard types] containsObject:NSFilenamesPboardType]) */
+/*     { */
+/*         NSData* data = [pasteboard dataForType:NSFilenamesPboardType]; */
+/*         if (data) */
+/*         { */
+/*             NSString* errorDescription; */
+/*             NSArray* filenames = [NSPropertyListSerialization */
+/*                                   propertyListFromData:data */
+/*                                   mutabilityOption:kCFPropertyListImmutable */
+/*                                   format:nil */
+/*                                   errorDescription:&errorDescription]; */
+/*              */
+/*             NSMutableArray *itemPaths = [[[NSMutableArray alloc] init] autorelease]; */
+/*             NSMutableArray *itemExts  = [[[NSMutableArray alloc] init] autorelease]; */
+/*              */
+/*             for (NSString* filename in filenames) */
+/*             {    */
+/* //                NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"file://localhost%@", filename]]; */
+/* //                NSString *path = [url path];  */
+/*                 [itemPaths addObject: filename]; */
+/*                 [itemExts  addObject:[filename pathExtension]]; */
+/*             } */
+/*             NSLog(@"%@",itemPaths); */
+/*             NSArray *args = [NSArray arrayWithObjects:itemPaths, itemExts, [NSNumber numberWithBool:true], nil]; */
+/* //            NSLog(@"About to take the screenshot"); */
+/*             if (args && [args count] > 0) */
+/*                 [AppController performSelector:@selector(takeScreenshotWrapper:) */
+/*                                     withObject:args afterDelay:1]; */
+/*              */
+/* //            [AppController takeScreenshot:itemPaths :itemExts :true]; */
+/*             return YES; */
+/*         } */
+/*     } */
 
-    return NO;
+    NSMutableArray *paths = [NSMutableArray arrayWithCapacity:1];
+    NSArray *pasteboardTypes = [NSArray arrayWithObjects:@"com.apple.pasteboard.promised-file-url", @"public.file-url", nil];
+    for(NSPasteboardItem *item in [[sender draggingPasteboard] pasteboardItems]) {
+      NSString *urlString = nil;
+      for(NSString *type in pasteboardTypes) {
+	if([[item types] containsObject:type]) {
+	urlString = [item stringForType:type];
+	break;
+	}
+      }
+      if(urlString) {
+	NSString *path = [[NSURL URLWithString:urlString] path];
+	[paths addObject:path];
+      }
+    }
+    NSLog(@"Pasted Paths: %@", paths);
+
+    return YES;
 }
 
 

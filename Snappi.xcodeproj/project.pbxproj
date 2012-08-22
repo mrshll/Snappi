@@ -465,8 +465,7 @@
 				A697668315E30072000D06D8 /* f_logo.png */,
 				A697668415E30072000D06D8 /* files.png */,
 				A697668515E30072000D06D8 /* fileshare.png */,
-				A697668615E30072000D06D8 /* Instructions.xib */,
-				A697668715E30072000D06D8 /* mainWindow.xib */,
+				A6A849B215E5561100F71C96 /* Layouts */,
 				A697668815E30072000D06D8 /* screen.png */,
 				A697668915E30072000D06D8 /* screenshot.png */,
 				A697668A15E30072000D06D8 /* ShortcutRecorder.strings */,
@@ -492,7 +491,6 @@
 				A697669E15E30072000D06D8 /* snappi_icon_g_50.png */,
 				A697669F15E30072000D06D8 /* snappi_icon_trunk.png */,
 				A69766A015E30072000D06D8 /* SR_LeopardFramework-Info.plist */,
-				A69766A115E30072000D06D8 /* StatusBar.xib */,
 				A69766A215E30072000D06D8 /* t_logo.png */,
 			);
 			path = Resources;
@@ -840,6 +838,16 @@
 				A69767CF15E301E9000D06D8 /* main.m */,
 			);
 			path = "Other Sources";
+			sourceTree = "<group>";
+		};
+		A6A849B215E5561100F71C96 /* Layouts */ = {
+			isa = PBXGroup;
+			children = (
+				A697668615E30072000D06D8 /* Instructions.xib */,
+				A697668715E30072000D06D8 /* mainWindow.xib */,
+				A69766A115E30072000D06D8 /* StatusBar.xib */,
+			);
+			name = Layouts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -77,7 +77,6 @@
 									<string key="NSFrame">{{21, 14}, {505, 317}}</string>
 									<reference key="NSSuperview" ref="1005"/>
 									<reference key="NSWindow"/>
-									<reference key="NSNextKeyView" ref="757069317"/>
 									<string key="NSReuseIdentifierKey">_NS:9</string>
 									<array class="NSMutableArray" key="NSTabViewItems">
 										<object class="NSTabViewItem" id="168135516">
@@ -229,7 +228,6 @@
 														<string key="NSFrame">{{-11, -5}, {507, 293}}</string>
 														<reference key="NSSuperview" ref="757069317"/>
 														<reference key="NSWindow"/>
-														<reference key="NSNextKeyView" ref="949088247"/>
 														<string key="NSReuseIdentifierKey">_NS:9</string>
 														<array class="NSMutableArray" key="NSTabViewItems">
 															<object class="NSTabViewItem" id="590321351">
@@ -579,7 +577,6 @@
 																			<object class="NSPSMatrix" key="NSDrawMatrix"/>
 																			<string key="NSFrame">{{333, 3}, {16, 16}}</string>
 																			<reference key="NSSuperview" ref="863578164"/>
-																			<reference key="NSNextKeyView"/>
 																			<string key="NSReuseIdentifierKey">_NS:926</string>
 																			<int key="NSpiFlags">28938</int>
 																			<double key="NSMaxValue">100</double>
@@ -1090,7 +1087,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 																			<string key="NSFrame">{{280, 17}, {162, 18}}</string>
 																			<reference key="NSSuperview" ref="949088247"/>
 																			<reference key="NSWindow"/>
-																			<reference key="NSNextKeyView"/>
 																			<string key="NSReuseIdentifierKey">_NS:9</string>
 																			<bool key="NSEnabled">YES</bool>
 																			<object class="NSButtonCell" key="NSCell" id="436938841">
@@ -1429,19 +1425,19 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 			<array class="NSMutableArray" key="connectionRecords">
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">mIntroWindow</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="342413034"/>
-					</object>
-					<int key="connectionID">779</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">mIntroTabView</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="1034755063"/>
 					</object>
 					<int key="connectionID">962</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">introWindow</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="342413034"/>
+					</object>
+					<int key="connectionID">1629</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -2512,7 +2508,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1628</int>
+			<int key="maxID">1629</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2560,86 +2556,66 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="connectTabView">NSTabView</string>
+						<string key="dropboxAuthButton">NSButton</string>
+						<string key="dropboxSpinner">NSProgressIndicator</string>
+						<string key="evernoteAuthButton">NSButton</string>
+						<string key="evernoteSpinner">NSProgressIndicator</string>
 						<string key="facebookAuthButton">NSButton</string>
-						<string key="fileDelegateDisallowReasonField">NSTextField</string>
-						<string key="fileDelegateDisallowRecorder">SRRecorderControl</string>
-						<string key="fileShortcutRecorder">SRRecorderControl</string>
+						<string key="facebookSpinner">NSProgressIndicator</string>
+						<string key="facebookStatusText">NSTextField</string>
 						<string key="instructionsTabView">NSTabView</string>
-						<string key="mPrefWindow">NSWindow</string>
-						<string key="mSignInOutEvernoteButton">NSButton</string>
-						<string key="mSignInOutTwitterButton">NSButton</string>
-						<string key="mSpinner">NSProgressIndicator</string>
-						<string key="mUsernameField">NSTextField</string>
-						<string key="screenshotDelegateDisallowReasonField">NSTextField</string>
-						<string key="screenshotDelegateDisallowRecorder">SRRecorderControl</string>
-						<string key="screenshotShortcutRecorder">SRRecorderControl</string>
-						<string key="statusText">NSTextField</string>
 						<string key="tryItOutButton">NSButton</string>
+						<string key="twitterAuthButton">NSButton</string>
+						<string key="twitterSpinner">NSProgressIndicator</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="connectTabView">
 							<string key="name">connectTabView</string>
 							<string key="candidateClassName">NSTabView</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="dropboxAuthButton">
+							<string key="name">dropboxAuthButton</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="dropboxSpinner">
+							<string key="name">dropboxSpinner</string>
+							<string key="candidateClassName">NSProgressIndicator</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="evernoteAuthButton">
+							<string key="name">evernoteAuthButton</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="evernoteSpinner">
+							<string key="name">evernoteSpinner</string>
+							<string key="candidateClassName">NSProgressIndicator</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="facebookAuthButton">
 							<string key="name">facebookAuthButton</string>
 							<string key="candidateClassName">NSButton</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="fileDelegateDisallowReasonField">
-							<string key="name">fileDelegateDisallowReasonField</string>
+						<object class="IBToOneOutletInfo" key="facebookSpinner">
+							<string key="name">facebookSpinner</string>
+							<string key="candidateClassName">NSProgressIndicator</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="facebookStatusText">
+							<string key="name">facebookStatusText</string>
 							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="fileDelegateDisallowRecorder">
-							<string key="name">fileDelegateDisallowRecorder</string>
-							<string key="candidateClassName">SRRecorderControl</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="fileShortcutRecorder">
-							<string key="name">fileShortcutRecorder</string>
-							<string key="candidateClassName">SRRecorderControl</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="instructionsTabView">
 							<string key="name">instructionsTabView</string>
 							<string key="candidateClassName">NSTabView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="mPrefWindow">
-							<string key="name">mPrefWindow</string>
-							<string key="candidateClassName">NSWindow</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="mSignInOutEvernoteButton">
-							<string key="name">mSignInOutEvernoteButton</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="mSignInOutTwitterButton">
-							<string key="name">mSignInOutTwitterButton</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="mSpinner">
-							<string key="name">mSpinner</string>
-							<string key="candidateClassName">NSProgressIndicator</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="mUsernameField">
-							<string key="name">mUsernameField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="screenshotDelegateDisallowReasonField">
-							<string key="name">screenshotDelegateDisallowReasonField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="screenshotDelegateDisallowRecorder">
-							<string key="name">screenshotDelegateDisallowRecorder</string>
-							<string key="candidateClassName">SRRecorderControl</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="screenshotShortcutRecorder">
-							<string key="name">screenshotShortcutRecorder</string>
-							<string key="candidateClassName">SRRecorderControl</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="statusText">
-							<string key="name">statusText</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="tryItOutButton">
 							<string key="name">tryItOutButton</string>
 							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="twitterAuthButton">
+							<string key="name">twitterAuthButton</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="twitterSpinner">
+							<string key="name">twitterSpinner</string>
+							<string key="candidateClassName">NSProgressIndicator</string>
 						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -2651,12 +2627,12 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<string key="className">AppDelegate</string>
 					<string key="superclassName">NSObject</string>
 					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="hideNotification:">id</string>
+						<string key="cancel:">id</string>
 						<string key="sendCustomInfoPressed:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="hideNotification:">
-							<string key="name">hideNotification:</string>
+						<object class="IBActionInfo" key="cancel:">
+							<string key="name">cancel:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="sendCustomInfoPressed:">
@@ -2668,22 +2644,15 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<string key="addCustomInfo">NSView</string>
 						<string key="completeView">NSView</string>
 						<string key="completeViewWithShare">NSView</string>
-						<string key="dropAndLet">NSTextField</string>
 						<string key="friendSelector">NSComboBox</string>
 						<string key="hoverView">NSView</string>
 						<string key="loadingBar">NSProgressIndicator</string>
 						<string key="mIntroWindow">NSWindow</string>
-						<string key="mSignInOutButton">NSButton</string>
 						<string key="notificationMsg">NSTextField</string>
-						<string key="pasteInstructions">NSTextField</string>
 						<string key="statusMenu">NSMenu</string>
-						<string key="textField">NSTextField</string>
-						<string key="uploadComplete">NSTextField</string>
-						<string key="uploadInProgress">NSTextField</string>
 						<string key="uploadThumb">NSImageView</string>
 						<string key="uploadThumbWithShare">NSImageView</string>
 						<string key="uploadingView">NSView</string>
-						<string key="window">NSWindow</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="addCustomInfo">
@@ -2697,10 +2666,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<object class="IBToOneOutletInfo" key="completeViewWithShare">
 							<string key="name">completeViewWithShare</string>
 							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="dropAndLet">
-							<string key="name">dropAndLet</string>
-							<string key="candidateClassName">NSTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="friendSelector">
 							<string key="name">friendSelector</string>
@@ -2718,33 +2683,13 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<string key="name">mIntroWindow</string>
 							<string key="candidateClassName">NSWindow</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="mSignInOutButton">
-							<string key="name">mSignInOutButton</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="notificationMsg">
 							<string key="name">notificationMsg</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="pasteInstructions">
-							<string key="name">pasteInstructions</string>
 							<string key="candidateClassName">NSTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="statusMenu">
 							<string key="name">statusMenu</string>
 							<string key="candidateClassName">NSMenu</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="textField">
-							<string key="name">textField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="uploadComplete">
-							<string key="name">uploadComplete</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="uploadInProgress">
-							<string key="name">uploadInProgress</string>
-							<string key="candidateClassName">NSTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="uploadThumb">
 							<string key="name">uploadThumb</string>
@@ -2757,10 +2702,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<object class="IBToOneOutletInfo" key="uploadingView">
 							<string key="name">uploadingView</string>
 							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="window">
-							<string key="name">window</string>
-							<string key="candidateClassName">NSWindow</string>
 						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -2788,25 +2729,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/MainWindowController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">SRRecorderControl</string>
-					<string key="superclassName">NSControl</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">delegate</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">delegate</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">delegate</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/SRRecorderControl.h</string>
 					</object>
 				</object>
 			</array>

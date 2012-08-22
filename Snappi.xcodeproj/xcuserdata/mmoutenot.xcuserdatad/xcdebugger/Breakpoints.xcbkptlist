@@ -13,8 +13,8 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "258"
          endingLineNumber = "258"
-         landmarkName = "+takeScreenshotWrapper:"
-         landmarkType = "5">
+         landmarkName = "myHotKeyHandler()"
+         landmarkType = "7">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"
@@ -26,8 +26,8 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "253"
          endingLineNumber = "253"
-         landmarkName = "+takeScreenshotWrapper:"
-         landmarkType = "5">
+         landmarkName = "myHotKeyHandler()"
+         landmarkType = "7">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"
@@ -39,7 +39,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "493"
          endingLineNumber = "493"
-         landmarkName = "-doAnAuthenticatedAPIFetch"
+         landmarkName = "+uploadToEvernotePaths:withExtensions:ofType:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -52,7 +52,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "926"
          endingLineNumber = "926"
-         landmarkName = "-signInToTwitter"
+         landmarkName = "+sendTweet:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -65,7 +65,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "482"
          endingLineNumber = "482"
-         landmarkName = "-doAnAuthenticatedAPIFetch"
+         landmarkName = "+uploadToEvernotePaths:withExtensions:ofType:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -78,7 +78,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "476"
          endingLineNumber = "476"
-         landmarkName = "-doAnAuthenticatedAPIFetch"
+         landmarkName = "+uploadToEvernotePaths:withExtensions:ofType:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -91,7 +91,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "884"
          endingLineNumber = "884"
-         landmarkName = "-isSignedInTwitter"
+         landmarkName = "+sendTweet:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -104,7 +104,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "549"
          endingLineNumber = "549"
-         landmarkName = "-windowController:finishedWithAuth:error:"
+         landmarkName = "+generateTitle:withExtensions:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -117,7 +117,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "517"
          endingLineNumber = "517"
-         landmarkName = "-windowController:finishedWithAuth:error:"
+         landmarkName = "+uploadToEvernotePaths:withExtensions:ofType:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -130,7 +130,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "790"
          endingLineNumber = "790"
-         landmarkName = "+sendTweet:"
+         landmarkName = "-signInEvernoteFetchStateChanged:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -143,7 +143,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "789"
          endingLineNumber = "789"
-         landmarkName = "+sendTweet:"
+         landmarkName = "-signInEvernoteFetchStateChanged:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
