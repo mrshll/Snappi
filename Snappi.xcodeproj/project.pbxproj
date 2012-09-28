@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A64418F915E6CA25000D157E /* DropboxOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A64418F815E6CA25000D157E /* DropboxOSX.framework */; };
+		A64418FE15E6CFF6000D157E /* DropboxOSX.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A64418F815E6CA25000D157E /* DropboxOSX.framework */; };
+		A644190115E742EA000D157E /* DropboxController.m in Sources */ = {isa = PBXBuildFile; fileRef = A644190015E742E9000D157E /* DropboxController.m */; };
+		A644190415E7526D000D157E /* CustomLocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A644190315E7526D000D157E /* CustomLocationController.m */; };
 		A697667515E30047000D06D8 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = A697666315E30047000D06D8 /* AppController.m */; };
 		A697667615E30047000D06D8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A697666515E30047000D06D8 /* AppDelegate.m */; };
 		A697667715E30047000D06D8 /* CMDroppableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A697666715E30047000D06D8 /* CMDroppableView.m */; };
@@ -42,7 +46,6 @@
 		A69766BC15E30072000D06D8 /* snappi_icon_g_16.png in Resources */ = {isa = PBXBuildFile; fileRef = A697669815E30072000D06D8 /* snappi_icon_g_16.png */; };
 		A69766BD15E30072000D06D8 /* snappi_icon_g_18.png in Resources */ = {isa = PBXBuildFile; fileRef = A697669915E30072000D06D8 /* snappi_icon_g_18.png */; };
 		A69766BE15E30072000D06D8 /* snappi_icon_g_250 1.icns in Resources */ = {isa = PBXBuildFile; fileRef = A697669A15E30072000D06D8 /* snappi_icon_g_250 1.icns */; };
-		A69766BF15E30072000D06D8 /* snappi_icon_g_250 copy.png in Resources */ = {isa = PBXBuildFile; fileRef = A697669B15E30072000D06D8 /* snappi_icon_g_250 copy.png */; };
 		A69766C015E30072000D06D8 /* snappi_icon_g_250.icns in Resources */ = {isa = PBXBuildFile; fileRef = A697669C15E30072000D06D8 /* snappi_icon_g_250.icns */; };
 		A69766C115E30072000D06D8 /* snappi_icon_g_250.png in Resources */ = {isa = PBXBuildFile; fileRef = A697669D15E30072000D06D8 /* snappi_icon_g_250.png */; };
 		A69766C215E30072000D06D8 /* snappi_icon_g_50.png in Resources */ = {isa = PBXBuildFile; fileRef = A697669E15E30072000D06D8 /* snappi_icon_g_50.png */; };
@@ -137,6 +140,8 @@
 		A69767FD15E30CE5000D06D8 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A697672215E30093000D06D8 /* Sparkle.framework */; };
 		A69767FE15E30D18000D06D8 /* PhFacebook.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A69766FB15E30092000D06D8 /* PhFacebook.framework */; };
 		A69767FF15E30D1A000D06D8 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A697672215E30093000D06D8 /* Sparkle.framework */; };
+		A6A849B615E5899200F71C96 /* PreferenceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6A849B515E5899200F71C96 /* PreferenceView.xib */; };
+		A6A849BA15E597E100F71C96 /* c_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A6A849B915E597E100F71C96 /* c_logo.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -165,12 +170,18 @@
 			files = (
 				A69767FE15E30D18000D06D8 /* PhFacebook.framework in CopyFiles */,
 				A69767FF15E30D1A000D06D8 /* Sparkle.framework in CopyFiles */,
+				A64418FE15E6CFF6000D157E /* DropboxOSX.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A64418F815E6CA25000D157E /* DropboxOSX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxOSX.framework; sourceTree = "<group>"; };
+		A64418FF15E742E9000D157E /* DropboxController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxController.h; sourceTree = "<group>"; };
+		A644190015E742E9000D157E /* DropboxController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropboxController.m; sourceTree = "<group>"; };
+		A644190215E7526D000D157E /* CustomLocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomLocationController.h; sourceTree = "<group>"; };
+		A644190315E7526D000D157E /* CustomLocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomLocationController.m; sourceTree = "<group>"; };
 		A68A9CF915CED7E50093ED9B /* Updater.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Updater.xcconfig; sourceTree = "<group>"; };
 		A697666215E30047000D06D8 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		A697666315E30047000D06D8 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
@@ -219,7 +230,6 @@
 		A697669815E30072000D06D8 /* snappi_icon_g_16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = snappi_icon_g_16.png; sourceTree = "<group>"; };
 		A697669915E30072000D06D8 /* snappi_icon_g_18.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = snappi_icon_g_18.png; sourceTree = "<group>"; };
 		A697669A15E30072000D06D8 /* snappi_icon_g_250 1.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "snappi_icon_g_250 1.icns"; sourceTree = "<group>"; };
-		A697669B15E30072000D06D8 /* snappi_icon_g_250 copy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "snappi_icon_g_250 copy.png"; sourceTree = "<group>"; };
 		A697669C15E30072000D06D8 /* snappi_icon_g_250.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = snappi_icon_g_250.icns; sourceTree = "<group>"; };
 		A697669D15E30072000D06D8 /* snappi_icon_g_250.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = snappi_icon_g_250.png; sourceTree = "<group>"; };
 		A697669E15E30072000D06D8 /* snappi_icon_g_50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = snappi_icon_g_50.png; sourceTree = "<group>"; };
@@ -388,6 +398,8 @@
 		A69767F215E308D8000D06D8 /* Snappi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Snappi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A69767F815E309F4000D06D8 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		A69767FA15E30CA0000D06D8 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
+		A6A849B515E5899200F71C96 /* PreferenceView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferenceView.xib; sourceTree = "<group>"; };
+		A6A849B915E597E100F71C96 /* c_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = c_logo.png; sourceTree = "<group>"; };
 		A6B52D8E15D4720A0017FE9F /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -411,6 +423,7 @@
 				A69767D315E3021A000D06D8 /* libMMMarkdown-Mac.a in Frameworks */,
 				A69767FC15E30CB5000D06D8 /* PhFacebook.framework in Frameworks */,
 				A69767FD15E30CE5000D06D8 /* Sparkle.framework in Frameworks */,
+				A64418F915E6CA25000D157E /* DropboxOSX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -438,8 +451,12 @@
 				A697666515E30047000D06D8 /* AppDelegate.m */,
 				A697666615E30047000D06D8 /* CMDroppableView.h */,
 				A697666715E30047000D06D8 /* CMDroppableView.m */,
+				A644190215E7526D000D157E /* CustomLocationController.h */,
+				A644190315E7526D000D157E /* CustomLocationController.m */,
 				A697666815E30047000D06D8 /* CustomView.h */,
 				A697666915E30047000D06D8 /* CustomView.m */,
+				A64418FF15E742E9000D157E /* DropboxController.h */,
+				A644190015E742E9000D157E /* DropboxController.m */,
 				A697666A15E30047000D06D8 /* EvernoteScreenshot.h */,
 				A697666B15E30047000D06D8 /* EvernoteScreenshot.m */,
 				A697666C15E30047000D06D8 /* FacebookController.h */,
@@ -458,6 +475,7 @@
 		A697667E15E30072000D06D8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A6A849B915E597E100F71C96 /* c_logo.png */,
 				A697667F15E30072000D06D8 /* d_logo.png */,
 				A697668015E30072000D06D8 /* Defaults.plist */,
 				A697668115E30072000D06D8 /* demo.png */,
@@ -485,7 +503,6 @@
 				A697669815E30072000D06D8 /* snappi_icon_g_16.png */,
 				A697669915E30072000D06D8 /* snappi_icon_g_18.png */,
 				A697669A15E30072000D06D8 /* snappi_icon_g_250 1.icns */,
-				A697669B15E30072000D06D8 /* snappi_icon_g_250 copy.png */,
 				A697669C15E30072000D06D8 /* snappi_icon_g_250.icns */,
 				A697669D15E30072000D06D8 /* snappi_icon_g_250.png */,
 				A697669E15E30072000D06D8 /* snappi_icon_g_50.png */,
@@ -499,6 +516,7 @@
 		A69766D115E30092000D06D8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A64418F815E6CA25000D157E /* DropboxOSX.framework */,
 				A6B52D8E15D4720A0017FE9F /* libz.dylib */,
 				A69767FA15E30CA0000D06D8 /* ApplicationServices.framework */,
 				A69767F815E309F4000D06D8 /* libxml2.dylib */,
@@ -843,6 +861,7 @@
 		A6A849B215E5561100F71C96 /* Layouts */ = {
 			isa = PBXGroup;
 			children = (
+				A6A849B515E5899200F71C96 /* PreferenceView.xib */,
 				A697668615E30072000D06D8 /* Instructions.xib */,
 				A697668715E30072000D06D8 /* mainWindow.xib */,
 				A69766A115E30072000D06D8 /* StatusBar.xib */,
@@ -950,7 +969,6 @@
 				A69766BC15E30072000D06D8 /* snappi_icon_g_16.png in Resources */,
 				A69766BD15E30072000D06D8 /* snappi_icon_g_18.png in Resources */,
 				A69766BE15E30072000D06D8 /* snappi_icon_g_250 1.icns in Resources */,
-				A69766BF15E30072000D06D8 /* snappi_icon_g_250 copy.png in Resources */,
 				A69766C015E30072000D06D8 /* snappi_icon_g_250.icns in Resources */,
 				A69766C115E30072000D06D8 /* snappi_icon_g_250.png in Resources */,
 				A69766C215E30072000D06D8 /* snappi_icon_g_50.png in Resources */,
@@ -966,6 +984,8 @@
 				A697678715E300AD000D06D8 /* UnitTests-Info.plist in Resources */,
 				A697678815E300AD000D06D8 /* GTMOAuth.framework-Info.plist in Resources */,
 				A697678B15E300AD000D06D8 /* GTMOAuthWindow.xib in Resources */,
+				A6A849B615E5899200F71C96 /* PreferenceView.xib in Resources */,
+				A6A849BA15E597E100F71C96 /* c_logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1047,6 +1067,8 @@
 				A69767D015E301E9000D06D8 /* LaunchAtLoginController.m in Sources */,
 				A69767D115E301E9000D06D8 /* MAAttachedWindow.m in Sources */,
 				A69767D215E301E9000D06D8 /* main.m in Sources */,
+				A644190115E742EA000D157E /* DropboxController.m in Sources */,
+				A644190415E7526D000D157E /* CustomLocationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

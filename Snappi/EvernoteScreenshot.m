@@ -252,7 +252,7 @@ static EvernoteScreenshot *sharedEvernoteManager = nil;
 - (NSArray *) generateNoteWrapper:(NSArray *)args{
   if(args && [args count] == 5){
     NSArray* retVals = [[EvernoteScreenshot sharedInstance]
-      generateNoteinNotebook:(NSString *)[args objectAtIndex:0]
+      generateNoteInNotebook:(NSString *)[args objectAtIndex:0]
                  inClipboard:(NSString *)[args objectAtIndex:1]
                  asShortened:(NSString *)[args objectAtIndex:2]
                    withTitle:(NSString *)[args objectAtIndex:3]
@@ -518,7 +518,6 @@ static EvernoteScreenshot *sharedEvernoteManager = nil;
   }
 
   if (fileUploaded){
-    //        [appDelegate showLoading];
     // We are transforming the resource into a array to attach it to the note
     if(!songUploaded){
       ENML = [NSString stringWithFormat:@"%@%@", ENML, @"</div><br style=\"clear:both\"/>"];
@@ -588,8 +587,10 @@ static EvernoteScreenshot *sharedEvernoteManager = nil;
 
   }
   [fbc setShareLink:shareLink];
-  NSArray *retVals = [NSArray arrayWithObjects:[NSNumber
-                                numberWithBool:fileUploaded], thumb, nil];
+  NSArray *retVals =
+    [NSArray arrayWithObjects:[NSNumber numberWithBool:fileUploaded],
+                                                           shareLink,
+                                                               thumb, nil];
   return retVals;
 }
 
@@ -720,17 +721,18 @@ static EvernoteScreenshot *sharedEvernoteManager = nil;
                                                                       delegate];
   //generate the hash for the image into a file
   NSString *launchPath = @"/bin/sh";
-  NSString* escPath = path;
   // Set up the task
   NSTask *task = [[[NSTask alloc] init] autorelease];
   [task setLaunchPath:launchPath];
 
   NSArray *args = [NSArray arrayWithObjects: @"-c",
                     [NSString stringWithFormat:@"md5 \"%@\" | awk -F'= ' '{ print $2 }' > \"%@/%@.md5\"",
-                    escPath,
+                    path,
                     [appDelegate getTmpPath],
-                    [[escPath lastPathComponent]stringByDeletingPathExtension]],
+                    [[path lastPathComponent]stringByDeletingPathExtension]],
                     nil];
+  
+  NSLog(@"%@",args);
 
   [task setArguments: args];
 

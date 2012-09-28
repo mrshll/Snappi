@@ -42,5 +42,16 @@
 	<string>http://app.snppi.com/releases/appcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>Dropbox SDK</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>db-cpzetuskb5zezvy</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

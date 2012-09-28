@@ -16,15 +16,16 @@
 #import "SBJson.h"
 
 typedef enum {
-    evernote,
-    facebook,
-     twitter, 
-     dropbox
+  evernote,
+  facebook,
+  dropbox,
+  twitter,
+  custom
 } APIType;
 
 // callback for a registered hot key press
-OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, 
-                                    EventRef anEvent, 
+OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler,
+                                    EventRef anEvent,
                                        void *userData);
 @implementation AppController
 @synthesize preferencesController;
@@ -38,7 +39,7 @@ static NSString *const kTwitterKeychainItemName = @"Snappi Twitter OAuth";
 static NSString *const kTwitterServiceName = @"Twitter";
 
 + (AppController*)sharedInstance {
-  if (sharedAppControllerManager == nil) {        
+  if (sharedAppControllerManager == nil) {
     sharedAppControllerManager = [[AppController alloc] init];
   }
   return sharedAppControllerManager;
@@ -52,17 +53,23 @@ static NSString *const kTwitterServiceName = @"Twitter";
 
 // shows the preference window
 - (IBAction)showPreferences:(id)sender{
+  AppDelegate *appDelegate = (AppDelegate *)[[NSApplication sharedApplication]
+                                                                      delegate];
+  [appDelegate showPreferences];
+    
+  /*
   [NSApp activateIgnoringOtherApps:YES];
 
   if(self.preferencesController)
     [self.preferencesController release];
-  self.preferencesController = [[PreferencesController alloc] 
+  self.preferencesController = [[PreferencesController alloc]
                                           initWithWindowNibName:@"Preferences"];
   [self.preferencesController showWindow:self];
   if ([AppController evernoteAuthSet]){
     NSArray *notebooks = [[EvernoteScreenshot sharedInstance] listNotebooks];
     [self.preferencesController populateNotebooks:notebooks];
   }
+  */
 }
 
 - (void)awakeFromNib {
@@ -70,19 +77,19 @@ static NSString *const kTwitterServiceName = @"Twitter";
                                                                       delegate];
 
   // register screenshot hotkey
-  EventHotKeyRef myHotKeyRef;     
-  EventHotKeyID myHotKeyID;     
+  EventHotKeyRef myHotKeyRef;
+  EventHotKeyID myHotKeyID;
   EventTypeSpec eventType;
-  eventType.eventClass=kEventClassKeyboard;     
+  eventType.eventClass=kEventClassKeyboard;
   eventType.eventKind=kEventHotKeyPressed;
   InstallApplicationEventHandler(&myHotKeyHandler,1,&eventType,NULL,NULL);
-  myHotKeyID.signature='mhk1';     
+  myHotKeyID.signature='mhk1';
   myHotKeyID.id=1;
-  RegisterEventHotKey(1, controlKey+cmdKey, myHotKeyID, 
+  RegisterEventHotKey(1, controlKey+cmdKey, myHotKeyID,
                                   GetApplicationEventTarget(), 0, &myHotKeyRef);
 
   // this is how to add a second shortcut
-  // myHotKeyID.signature='mhk2';     
+  // myHotKeyID.signature='mhk2';
   // myHotKeyID.id=2;
   // RegisterEventHotKey(0, controlKey+cmdKey, myHotKeyID,
   //                            GetApplicationEventTarget(), 0, &myHotKeyRef);
@@ -91,6 +98,7 @@ static NSString *const kTwitterServiceName = @"Twitter";
   // TODO currently it pops a display when not logged in on startup :(
   if (fbc == nil){
     fbc = [[FacebookController alloc] init];
+    [fbc setDelegate: self];
     if (![appDelegate isFirstRun]) {
       [self signInFacebook];
     }
@@ -100,7 +108,7 @@ static NSString *const kTwitterServiceName = @"Twitter";
   // evernote connection
   if (mAuthEvernote == nil){
     GTMOAuthAuthentication *auth;
-    auth = [GTMOAuthWindowController 
+    auth = [GTMOAuthWindowController
                             authForGoogleFromKeychainForName:kKeychainItemName];
     // handle loging in or not
     if ([auth canAuthorize]) {
@@ -108,7 +116,7 @@ static NSString *const kTwitterServiceName = @"Twitter";
     } else {
       auth = [self authForEvernote];
       if (auth) {
-        BOOL didAuth = [GTMOAuthWindowController 
+        BOOL didAuth = [GTMOAuthWindowController
                                   authorizeFromKeychainForName:kKeychainItemName
                                                 authentication:auth];
         if (didAuth) {
@@ -141,51 +149,52 @@ static NSString *const kTwitterServiceName = @"Twitter";
   }
 
   // twitter connection
-  if (mAuthTwitter == nil){
-    GTMOAuthAuthentication *auth2;
-    auth2 = [GTMOAuthWindowController 
-      authForGoogleFromKeychainForName:kTwitterKeychainItemName];
-    // handle loging in or not
-    if ([auth2 canAuthorize]){
-      NSLog(@"Authorized with Twitter");
-    } else {
-      auth2 = [self authForTwitter];
-      if (auth2) {
-        BOOL didTwitterAuth = [GTMOAuthWindowController 
+  GTMOAuthAuthentication *auth2;
+  auth2 = [self authForTwitter];
+  // handle loging in or not
+  if (auth2){
+    BOOL didTwitterAuth = [GTMOAuthWindowController
                            authorizeFromKeychainForName:kTwitterKeychainItemName
-                                         authentication:auth2];
-
-        if(didTwitterAuth){
-        }
-      }
-    }
+                           authentication:auth2];
+    
+    if(didTwitterAuth)
+      NSLog(@"Twitter Authenticated");
     [self setTwitterAuthentication:auth2];
   }
-
+  
+  //dropbox
+  
+  dbc = [[DropboxController alloc] init];
+  [self authDropbox];
+  
   // update the UI to reflect what is auth'd and what isn't
   [self updateUI];
+  
+  // customLocation
+  clc = [[CustomLocationController alloc] init];
 }
 
 - (IBAction)signInOutFacebookClicked:(id)sender{
   if ([fbc isSignedIn]){
     [fbc purge];
-    [facebookAuthButton setTitle:@"Sign in to Facebook"];
   }
   else{
     [self signInFacebook];
-    [facebookAuthButton setTitle:@"Sign out of Facebook"];
   }
+  [self updateUI];
 }
 
 - (void)signInFacebook{
   [fbc getAccessToken];
-  // gets list of friends for the friendSelector combobox
-  [fbc populateFriends];
+  
+  if ([fbc isSignedIn])
+    [fbc populateFriends];
   NSLog(@"Authorized with Facebook");
+  [self updateUI];
 }
 
 - (IBAction)takeScreenshotClicked:(id)sender{
-  AppDelegate *appDelegate = (AppDelegate *)[[NSApplication sharedApplication] 
+  AppDelegate *appDelegate = (AppDelegate *)[[NSApplication sharedApplication]
                                                                       delegate];
 
   // TODO this needs to change to check that whatever route screenshots follows
@@ -195,18 +204,18 @@ static NSString *const kTwitterServiceName = @"Twitter";
     NSString *sguid = [[NSProcessInfo processInfo] globallyUniqueString];
 
     // generate the path using the tmpPath specified in the appDelegate
-    NSMutableArray *screenshotPath = 
-      [[NSMutableArray alloc] initWithObjects: 
+    NSMutableArray *screenshotPath =
+      [[NSMutableArray alloc] initWithObjects:
         [NSString stringWithFormat: @"%@/%@.png",
                                           [appDelegate getTmpPath],sguid], nil];
-    NSMutableArray *screenshotExt = 
+    NSMutableArray *screenshotExt =
                            [[NSMutableArray alloc] initWithObjects:@"png", nil];
 
     // initialize the array of arguments to pass to the screenshot wrapper
-    NSArray *args = [NSArray arrayWithObjects:screenshotPath, 
+    NSArray *args = [NSArray arrayWithObjects:screenshotPath,
                                                screenshotExt,
                              [NSNumber numberWithBool:false], nil];
-    [AppController takeScreenshotWrapper:args];
+    [AppController uploadWrapper:args];
   }
   else {
     [appDelegate showMessage:@"Don't forget to sign in!"];
@@ -216,12 +225,12 @@ static NSString *const kTwitterServiceName = @"Twitter";
 }
 
 // handles when the shortcut action is pressed
-OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent, 
-                                                               void *userData) {   
+OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
+                                                               void *userData) {
 
-  AppDelegate *appDelegate = (AppDelegate *)[[NSApplication sharedApplication] 
+  AppDelegate *appDelegate = (AppDelegate *)[[NSApplication sharedApplication]
                                                                       delegate];
-  OSStatus result; 
+  OSStatus result;
   EventHotKeyID hkCom;
 
   GetEventParameter(theEvent,kEventParamDirectObject,typeEventHotKeyID,NULL,
@@ -229,19 +238,19 @@ OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
 
   // use guid to differentiate from other screenshots
   NSString *sguid = [[NSProcessInfo processInfo] globallyUniqueString];
-  
+
   // generate the path using the tmpPath specified in the appDelegate
-  NSMutableArray *screenshotPath = 
-    [[[NSMutableArray alloc] initWithObjects: 
+  NSMutableArray *screenshotPath =
+    [[[NSMutableArray alloc] initWithObjects:
                   [NSString stringWithFormat: @"%@/%@.png",
-                                  [appDelegate getTmpPath], 
+                                  [appDelegate getTmpPath],
                                                     sguid], nil] autorelease];
 
-  NSMutableArray *screenshotExt = 
+  NSMutableArray *screenshotExt =
             [[[NSMutableArray alloc] initWithObjects: @"png", nil] autorelease];
 
   // build argument array to pass the the screenshot wrapper
-  NSArray *args = [NSArray arrayWithObjects:screenshotPath, 
+  NSArray *args = [NSArray arrayWithObjects:screenshotPath,
                                              screenshotExt,
                            [NSNumber numberWithBool:false], nil];
 
@@ -251,18 +260,18 @@ OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
       result = noErr;
       break;
     case 1:
-      [AppController takeScreenshotWrapper:args];
+      [AppController uploadWrapper:args];
       result = noErr;
       break;
     // example for file upload on shortcut press
     /* case 2: */
-    /*   finder = 
+    /*   finder =
      *   [SBApplication applicationWithBundleIdentifier:@"com.apple.finder"]; */
     /*   selection = [[finder selection] get]; */
     /*   items = [selection arrayByApplyingSelector:@selector(URL)]; */
-    /*   NSMutableArray *itemPaths = 
+    /*   NSMutableArray *itemPaths =
      *    [[[NSMutableArray alloc] init] autorelease]; */
-    /*   NSMutableArray *itemExts  = 
+    /*   NSMutableArray *itemExts  =
      *    [[[NSMutableArray alloc] init] autorelease]; */
     /*   for (NSString * item in items) { */
     /*     url = [NSURL URLWithString:item]; */
@@ -280,12 +289,12 @@ OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
 
 + (void) uploadWrapper:(NSArray *)args{
   // get pref for file and screenshot dest
-  NSString *fileDestination = 
+  NSString *fileDestination =
    [[NSUserDefaults standardUserDefaults] valueForKey:@"fileDestination"];
-  NSString *screenshotDestination = 
+  NSString *screenshotDestination =
    [[NSUserDefaults standardUserDefaults] valueForKey:@"screenshotDestination"];
 
-  // if there is one file, with a png extension, and in the tmp directory then 
+  // if there is one file, with a png extension, and in the tmp directory then
   // it is a screenshot.
   BOOL isFile = [[args objectAtIndex:2] boolValue];
 
@@ -295,21 +304,26 @@ OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
       default:
         NSLog(@"Invalid screenshot destination");
         break;
-      case evernote: 
+      case evernote:
         if(args && [args count] == 3)
-          [AppController 
+          [AppController
             uploadToEvernotePaths:(NSMutableArray *)[args objectAtIndex:0]
                    withExtensions:(NSMutableArray*)[args objectAtIndex:1]
                            ofType:[[args objectAtIndex:2] boolValue]];
         break;
-      case facebook: 
-        [AppController takeFacebookScreenshot:
-                                      (NSMutableArray *)[args objectAtIndex:0]];
+      case facebook:
+        if (args && [args objectAtIndex:0]){
+          [AppController takeFacebookScreenshotAtPath:
+           (NSString *)[[args objectAtIndex:0] objectAtIndex:0]];
+        }
         break;
       case twitter:
         break;
       case dropbox:
+        [AppController uploadToDropboxPaths:(NSMutableArray *)[args objectAtIndex:0]];
         break;
+      case custom:
+        [clc uploadFileWithPath:(NSMutableArray *)[args objectAtIndex:0] andTakeScreenshot:true];
     }
     // otherwise we have a file
   } else {
@@ -319,14 +333,17 @@ OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
         break;
       case evernote:
         if(args && [args count] == 3)
-          [AppController 
+          [AppController
             uploadToEvernotePaths:(NSMutableArray *)[args objectAtIndex:0]
                    withExtensions:(NSMutableArray*)[args objectAtIndex:1]
                            ofType:[[args objectAtIndex:2] boolValue]];
         break;
       case dropbox:
         // upload to dropbox
+        [AppController uploadToDropboxPaths:(NSMutableArray *)[args objectAtIndex:0]];
         break;
+      case custom:
+        [clc uploadFileWithPath:(NSMutableArray *)[args objectAtIndex:0] andTakeScreenshot:false];
     }
   }
 
@@ -355,7 +372,7 @@ OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
                                                                       delegate];
     if ([fbc isSignedIn]){
       // take screenshot
-      NSTask *task = [self getScreenShot:path];
+      NSTask *task = [self getScreenShotAndSaveTo:path];
       [task waitUntilExit];
 
       NSFileManager *man = [[NSFileManager alloc] init];
@@ -404,6 +421,9 @@ OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
 
   AppDelegate *appDelegate = (AppDelegate *)[[NSApplication sharedApplication]
                                                                       delegate];
+  // clear the twitter share link to prevent conflict
+  [appDelegate setTwitterButtonLink:@""];
+  
   [appDelegate hideMessage];
   if (![self evernoteAuthSet]){
     [appDelegate hideMessage];
@@ -464,7 +484,7 @@ OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
           [[man attributesOfItemAtPath:[itemPaths objectAtIndex:0] error:NULL]
                                                      fileSize] != 0) || isFile){
         [appDelegate hideMessage];
-        [appDelegate showLoading];
+        [appDelegate showLoading:@"Uploading to Evernote"];
 
         // generate argument array for the noteWrapper
         NSArray *args = [NSArray arrayWithObjects:notebookTitle,
@@ -475,7 +495,8 @@ OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
         NSArray *retVals = [es generateNoteWrapper:args];
         [appDelegate hideLoading];
         // if we received an invalid number of return objects, error
-        if (!retVals || [retVals count] < 1 || ![retVals objectAtIndex:0]){
+        if (!retVals || [retVals count] < 2 || ![retVals objectAtIndex:0]
+                                            || ![retVals objectAtIndex:1]){
           [appDelegate hideMessage];
           [appDelegate showMessage:@"File could not be uploaded.\
                                                  \nFolders not yet supported."];
@@ -485,8 +506,8 @@ OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
         } else {
           NSImage* thumb;
           // if we got a thumbnail from the returned values, use it.
-          if([retVals count] == 2)
-            thumb = [retVals objectAtIndex:1];
+          if([retVals count] == 3)
+            thumb = [retVals objectAtIndex:2];
           // otherwise, use the default Snappi logo
           else {
             NSString *defThumbPath = [[NSBundle mainBundle]
@@ -494,6 +515,9 @@ OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
             thumb = [[NSImage alloc] initWithContentsOfFile:defThumbPath];
           }
           BOOL fileWasUploaded = [[retVals objectAtIndex:0] boolValue];
+          NSString *shareLink  = [retVals objectAtIndex:1];
+          [appDelegate setTwitterButtonLink:shareLink];
+          
           // if it worked, show completed notification
           if (fileWasUploaded){
             [appDelegate hideMessage];
@@ -530,9 +554,9 @@ OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
   }
 }
 
-+ (NSString *) generateTitle:(NSMutableArray*)  itemPaths
-              withExtensions:(NSMutableArray *) itemExts {
-  if ([itemPaths count] == 1) 
++ (NSString *) generateTitleForFiles:(NSMutableArray*)  itemPaths
+                      withExtensions:(NSMutableArray *) itemExts {
+  if ([itemPaths count] == 1)
     return [[[itemPaths objectAtIndex:0] lastPathComponent]
                                                  stringByDeletingPathExtension];
   else if ([itemPaths count] > 1){
@@ -544,23 +568,23 @@ OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
                                        || [ext isEqualToString:@"flac"]){
         return @"Songs";
       }
-      if([ext isEqualToString:@"doc"] || [ext isEqualToString:@"docx"] 
-      || [ext isEqualToString:@"pdf"] || [ext isEqualToString:@"rtf"]  
+      if([ext isEqualToString:@"doc"] || [ext isEqualToString:@"docx"]
+      || [ext isEqualToString:@"pdf"] || [ext isEqualToString:@"rtf"]
                                       || [ext isEqualToString:@"txt"]){
         return @"Documents";
       }
-      if([ext isEqualToString:@"avi"] || [ext isEqualToString:@"mp4"] 
+      if([ext isEqualToString:@"avi"] || [ext isEqualToString:@"mp4"]
       || [ext isEqualToString:@"flv"] || [ext isEqualToString:@"mkv"]){
         return @"Videos";
       }
-      if([ext isEqualToString:@"cpp" ] || [ext isEqualToString:@"h"]   
-      || [ext isEqualToString:@"m"]    || [ext isEqualToString:@"js"]  
-      || [ext isEqualToString:@"jsm"]  || [ext isEqualToString:@"c"]   
+      if([ext isEqualToString:@"cpp" ] || [ext isEqualToString:@"h"]
+      || [ext isEqualToString:@"m"]    || [ext isEqualToString:@"js"]
+      || [ext isEqualToString:@"jsm"]  || [ext isEqualToString:@"c"]
       || [ext isEqualToString:@"java"] || [ext isEqualToString:@"scm"]){
         return @"Code";
       }
-      if([ext isEqualToString:@"jpg"] || [ext isEqualToString:@"png"]   
-      || [ext isEqualToString:@"gif"] || [ext isEqualToString:@"jpeg"]  
+      if([ext isEqualToString:@"jpg"] || [ext isEqualToString:@"png"]
+      || [ext isEqualToString:@"gif"] || [ext isEqualToString:@"jpeg"]
                                       || [ext isEqualToString:@"psd"]) {
         return @"Images";
       }
@@ -570,17 +594,27 @@ OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
 }
 
 //////////////////////////////////////////////////////////////////////
-// authentication functions 
+// authentication functions
 //////////////////////////////////////////////////////////////////////
 
 // currently using this to test a basic twitter API fetch
 - (void)doAnAuthenticatedAPIFetch {
   if([self isSignedInTwitter]){
-    NSString *urlStr =@"http://api.twitter.com/1/statuses/home_timeline.json";
-
-
-    NSURL *url = [NSURL URLWithString:urlStr];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    NSString *urlStr =@"http://api.twitter.com/1/statuses/update.json";
+    
+    NSString *testStatus = @"OMG TESTING FROM SNAPPI";
+    NSString *post = [NSString stringWithFormat:@"status=%@", testStatus];
+    
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    
+    NSString *postLength = [NSString stringWithFormat:@"%ld", [postData length]];
+    
+    NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] init] autorelease];
+    [request setURL:[NSURL URLWithString:urlStr]];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:postData];
     [mAuthTwitter authorizeRequest:request];
 
     // Note that for a request with a body, such as a POST or PUT request, the
@@ -621,7 +655,7 @@ OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
     // Authentication failed (perhaps the user denied access, or closed the
     // window before granting access)
     NSLog(@"Authentication error: %@", error);
-    NSData *responseData = [[error userInfo] objectForKey:@"data"]; 
+    NSData *responseData = [[error userInfo] objectForKey:@"data"];
     if ([responseData length] > 0) {
       // show the body of the server's authentication failure response
       NSString *str = [[[NSString alloc] initWithData:responseData
@@ -678,6 +712,7 @@ OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
     //[mTokenField setStringValue:@"-No token-"];
     [evernoteAuthButton setTitle:@"Sign in to Evernote"];
   }
+  
   if ([self isSignedInTwitter]) {
     // signed in
     BOOL isVerified = [[mAuthTwitter userEmailIsVerified] boolValue];
@@ -697,6 +732,17 @@ OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
     //[mTokenField setStringValue:@"-No token-"];
     [twitterAuthButton setTitle:@"Sign in to Twitter"];
   }
+  
+  if ([[DBSession sharedSession] isLinked])
+    [dropboxAuthButton setTitle:@"Sign out of Dropbox"];
+  else
+    [dropboxAuthButton setTitle:@"Sign in to Dropbox"];
+  
+  if ([fbc isSignedIn])
+    [facebookAuthButton setTitle:@"Sign out of Facebook"];
+  else
+    [facebookAuthButton setTitle:@"Sign in to Facebook"];
+
 }
 
 ///////EVERNOTE/////////////
@@ -722,7 +768,7 @@ OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
   }
 
   GTMOAuthAuthentication *auth;
-  auth = [[[GTMOAuthAuthentication alloc] 
+  auth = [[[GTMOAuthAuthentication alloc]
                       initWithSignatureMethod:kGTMOAuthSignatureMethodHMAC_SHA1
                                   consumerKey:myConsumerKey
                                    privateKey:myConsumerSecret] autorelease];
@@ -739,7 +785,7 @@ OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
 
   NSURL *requestURL = [NSURL URLWithString:@"https://www.evernote.com/oauth"];
   NSURL *accessURL = [NSURL URLWithString:@"https://www.evernote.com/oauth"];
-  NSURL *authorizeURL = 
+  NSURL *authorizeURL =
    [NSURL URLWithString:@"https://www.evernote.com/OAuth.action?format=mobile"];
   NSString *scope = @"https://www.evernote.com";
 
@@ -755,7 +801,7 @@ OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
   GTMOAuthWindowController *windowController;
 
   // a perfect example of how ferociously ugly objective-c is!!! HAH!
-  windowController = [[[GTMOAuthWindowController alloc] 
+  windowController = [[[GTMOAuthWindowController alloc]
                                                 initWithScope:scope
                                                      language:nil
                                               requestTokenURL:requestURL
@@ -765,9 +811,10 @@ OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
                                                appServiceName:kKeychainItemName
                                                resourceBundle:nil] autorelease];
 
-  AppDelegate *appDelegate = (AppDelegate *)[NSApplication sharedApplication];
-  [windowController signInSheetModalForWindow:[appDelegate getIntroWindow] 
-                                     delegate:self 
+  AppDelegate *appDelegate = (AppDelegate *)[[NSApplication sharedApplication] delegate];
+  NSWindow *window = [appDelegate getIntroWindow];
+  [windowController signInSheetModalForWindow:window
+                                     delegate:self
           finishedSelector:@selector(windowController:finishedWithAuth:error:)];
 }
 
@@ -835,49 +882,94 @@ OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
 // TWITTER //////////////////////////////////
 
 - (IBAction)sendATestTweet:(id)sender{
-  //    [self doAnAuthenticatedAPIFetch];
-  [AppController sendTweet:@"http://app.snppi.com"];
+  AppDelegate *appDelegate = (AppDelegate *)[[NSApplication sharedApplication]
+                                                                      delegate];
+  NSString *link = [appDelegate getTwitterButtonLink];
+  if(link && ![link isEqualToString:@""])
+    [AppController sendTweet:link];
 }
 
 + (void)sendTweet: (NSString *) link{
+  NSString *urlStr =@"http://api.twitter.com/1/statuses/update.json";
+  
+  NSString *post = [NSString stringWithFormat:@"status=%@ via #Snappi [http://app.snppi.com]", link];
+  
+  NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+  
+  NSString *postLength = [NSString stringWithFormat:@"%ld", [postData length]];
+  
+  NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] init] autorelease];
+  [request setURL:[NSURL URLWithString:urlStr]];
+  [request setHTTPMethod:@"POST"];
+  [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+  [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+  [request setHTTPBody:postData];
+  [mAuthTwitter authorizeRequest:request];
+  
+  // Note that for a request with a body, such as a POST or PUT request, the
+  // library will include the body data when signing only if the request has
+  // the proper content type header:
+  //
+  //   [request setValue:@"application/x-www-form-urlencoded"
+  //  forHTTPHeaderField:@"Content-Type"];
+  
+  // Synchronous fetches like this are a really bad idea in Cocoa applications
+  //
+  // For a very easy async alternative, we could use GTMHTTPFetcher
+  NSError *error = nil;
+  NSURLResponse *response = nil;
+  NSData *data = [NSURLConnection sendSynchronousRequest:request
+                                       returningResponse:&response
+                                                   error:&error];
+  
+  if (data) {
+    // API fetch succeeded
+    NSString *str = [[[NSString alloc] initWithData:data
+                                           encoding:NSUTF8StringEncoding] autorelease];
+    NSLog(@"API response: %@", str);
+  } else {
+    // fetch failed
+    NSLog(@"API fetch error: %@", error);
+  }
+  
   //    if ([self twitterAuthSet]){
   //        NSString *status = [NSString stringWithFormat:@"%@ via @Snappi.", link];
-  //        NSString *body = [NSString stringWithFormat: @"status=%@", status]; 
-  //        NSString *urlStr = @"http://api.twitter.com/1/statuses/update.json"; 
-  //        NSURL *url = [NSURL URLWithString:urlStr]; 
+  //        NSString *body = [NSString stringWithFormat: @"status=%@", status];
+  //        NSString *urlStr = @"http://api.twitter.com/1/statuses/update.json";
+  //        NSURL *url = [NSURL URLWithString:urlStr];
   //        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
   //		[request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-  //		[request setHTTPMethod:@"POST"]; 
+  //		[request setHTTPMethod:@"POST"];
   //		[request setHTTPBody: [body dataUsingEncoding:NSUTF8StringEncoding]];
   //		[mAuthTwitter authorizeRequest: request];
-  //		
-  //		GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];	
-  //		[myFetcher beginFetchWithCompletionHandler:^(NSData *retrievedData, NSError *error) {             
-  //            if (error != nil) { 
-  //                NSLog(@"POST error: %@", error); 
-  //            } 
-  //            else 
-  //            { 
+  //
+  //		GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
+  //		[myFetcher beginFetchWithCompletionHandler:^(NSData *retrievedData, NSError *error) {
+  //            if (error != nil) {
+  //                NSLog(@"POST error: %@", error);
+  //            }
+  //            else
+  //            {
   //                NSString *results = [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease];
-  //                //                 NSDictionary *results = [[[[NSString alloc] initWithData: 
-         //                //                                            retrievedData encoding:NSUTF8StringEncoding] autorelease] JSONValue]; 
-         //                //                 NSLog(@"POST Successful: #%@ @ %@", [results objectForKey: 
-//                //                                                      @"id"], [results objectForKey: @"created_at"]); 
+  //                //                 NSDictionary *results = [[[[NSString alloc] initWithData:
+         //                //                                            retrievedData encoding:NSUTF8StringEncoding] autorelease] JSONValue];
+         //                //                 NSLog(@"POST Successful: #%@ @ %@", [results objectForKey:
+//                //                                                      @"id"], [results objectForKey: @"created_at"]);
 //                NSLog(@"%@",results);
-//            } 
-//        }];     
+//            }
+//        }];
 //    }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //    NSString *defThumbPath = [[NSBundle mainBundle] pathForResource: @"snappi_icon_g_50" ofType:@"png"];
 //    NSData *imgData = [[NSData alloc] initWithContentsOfFile:defThumbPath];
-//    
+//
 //    // create the auth header for Twitter
 //    NSString *twitterVerifyURLStr = @"https://api.twitter.com/1/account/verify_credentials.json";
 //    NSURL *twitterURL = [NSURL URLWithString:twitterVerifyURLStr];
 //    NSURL *url = [NSURL URLWithString:@"http://api.twitpic.com/1/upload.json"];
-//    
+//
 //    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
-//    
+//
 //    [request addPostValue:@"cc3765a58a7a94e65d8e57216acb5056" forKey:@"key"];
 //    [request addPostValue:[mAuthTwitter consumerKey] forKey:@"consumer_token"];
 //    [request addPostValue:[mAuthTwitter privateKey] forKey:@"consumer_secret"];
@@ -885,90 +977,90 @@ OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
 //    [request addPostValue:[mAuthTwitter tokenSecret] forKey:@"oauth_secret"];
 //    [request addPostValue:link forKey:@"message"];
 //    [request addData:imgData forKey:@"media"];
-//    
+//
 //    request.requestMethod = @"POST";
-//    
+//
 //    [request startAsynchronous];
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-  if ([self twitterAuthSet]){
-    NSString *defThumbPath = [[NSBundle mainBundle] pathForResource: @"snappi_icon_g_50" ofType:@"png"];
-    NSData *imgData = [[NSData alloc] initWithContentsOfFile:defThumbPath];
-    NSString* data = [[[NSString alloc] initWithData:imgData
-                                            encoding:NSUTF8StringEncoding] autorelease];
-
-    // create the auth header for Twitter
-    NSString *twitterVerifyURLStr = @"http://api.twitter.com/1/account/verify_credentials.json";
-    NSURL *twitterURL = [NSURL URLWithString:twitterVerifyURLStr];
-    NSMutableURLRequest *tempRequest = [NSMutableURLRequest requestWithURL:twitterURL];
-    [mAuthTwitter authorizeRequest:tempRequest];
-    [mAuthTwitter addResourceTokenHeaderToRequest:tempRequest];
-    // copy the auth header for Twitter into the TwitPic request
-    NSString *twitterAuthHeader = [tempRequest valueForHTTPHeaderField:@"Authorization"];
-    NSURL *twitPicURL = [NSURL URLWithString:@"http://api.twitpic.com/2/upload.json"];
-
-    NSMutableURLRequest *twitPicRequest = [NSMutableURLRequest
-      requestWithURL:twitPicURL
-         cachePolicy:NSURLRequestUseProtocolCachePolicy
-     timeoutInterval:30.0];
-
-
-    [twitPicRequest setValue:twitterAuthHeader forHTTPHeaderField:@"X-Verify-Credentials-Authorization"];
-    [twitPicRequest setValue:twitterVerifyURLStr forHTTPHeaderField:@"X-Auth-Service-Provider"];
-
-    [twitPicRequest addValue:@"cc3765a58a7a94e65d8e57216acb5056" forHTTPHeaderField:@"key"];
-    [twitPicRequest addValue:@"test" forHTTPHeaderField:@"message"];
-    [twitPicRequest addValue:data forHTTPHeaderField:@"media"];
-
-    [twitPicRequest setHTTPMethod:@"POST"];
-    [mAuthTwitter authorizeRequest: twitPicRequest];
-
-    GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:twitPicRequest];
-    [myFetcher beginFetchWithCompletionHandler:^(NSData *retrievedData, NSError *error) {
-      if (error != nil) {
-        NSLog(@"%@: POST error: %@",tempRequest, error);
-      }
-      else
-      {
-        NSDictionary *results = [[[[NSString alloc] initWithData:
-                                          retrievedData encoding:NSUTF8StringEncoding] autorelease] JSONValue];
-        NSLog(@"POST Successful: #%@ @ %@", [results objectForKey:
-  @"id"], [results objectForKey: @"created_at"]);
-      }
-    }];
-  }
+//  if ([self twitterAuthSet]){
+//    NSString *defThumbPath = [[NSBundle mainBundle] pathForResource: @"snappi_icon_g_50" ofType:@"png"];
+//    NSData *imgData = [[NSData alloc] initWithContentsOfFile:defThumbPath];
+//    NSString* data = [[[NSString alloc] initWithData:imgData
+//                                            encoding:NSUTF8StringEncoding] autorelease];
+//
+//    // create the auth header for Twitter
+//    NSString *twitterVerifyURLStr = @"http://api.twitter.com/1/account/verify_credentials.json";
+//    NSURL *twitterURL = [NSURL URLWithString:twitterVerifyURLStr];
+//    NSMutableURLRequest *tempRequest = [NSMutableURLRequest requestWithURL:twitterURL];
+//    [mAuthTwitter authorizeRequest:tempRequest];
+//    [mAuthTwitter addResourceTokenHeaderToRequest:tempRequest];
+//    // copy the auth header for Twitter into the TwitPic request
+//    NSString *twitterAuthHeader = [tempRequest valueForHTTPHeaderField:@"Authorization"];
+//    NSURL *twitPicURL = [NSURL URLWithString:@"http://api.twitpic.com/2/upload.json"];
+//
+//    NSMutableURLRequest *twitPicRequest = [NSMutableURLRequest
+//      requestWithURL:twitPicURL
+//         cachePolicy:NSURLRequestUseProtocolCachePolicy
+//     timeoutInterval:30.0];
+//
+//
+//    [twitPicRequest setValue:twitterAuthHeader forHTTPHeaderField:@"X-Verify-Credentials-Authorization"];
+//    [twitPicRequest setValue:twitterVerifyURLStr forHTTPHeaderField:@"X-Auth-Service-Provider"];
+//
+//    [twitPicRequest addValue:@"cc3765a58a7a94e65d8e57216acb5056" forHTTPHeaderField:@"key"];
+//    [twitPicRequest addValue:@"test" forHTTPHeaderField:@"message"];
+//    [twitPicRequest addValue:data forHTTPHeaderField:@"media"];
+//
+//    [twitPicRequest setHTTPMethod:@"POST"];
+//    [mAuthTwitter authorizeRequest: twitPicRequest];
+//
+//    GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:twitPicRequest];
+//    [myFetcher beginFetchWithCompletionHandler:^(NSData *retrievedData, NSError *error) {
+//      if (error != nil) {
+//        NSLog(@"%@: POST error: %@",tempRequest, error);
+//      }
+//      else
+//      {
+//        NSDictionary *results = [[[[NSString alloc] initWithData:
+//                                          retrievedData encoding:NSUTF8StringEncoding] autorelease] JSONValue];
+//        NSLog(@"POST Successful: #%@ @ %@", [results objectForKey:
+//  @"id"], [results objectForKey: @"created_at"]);
+//      }
+//    }];
+//  }
 
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
   //    ASIFormDataRequest *req = [[ASIFormDataRequest alloc] initWithURL:
                     //                               [NSURL URLWithString:@"http://api.twitpic.com/2/upload.json"]];
-                    //    
+                    //
                     //    [req addRequestHeader:@"X-Auth-Service-Provider" value:@"https://api.twitter.com/1/account/verify_credentials.json"];
                     //    [req addRequestHeader:@"X-Verify-Credentials-Authorization"
                     //                    value:[oAuth oAuthHeaderForMethod:@"GET"
 //                                               andUrl:@"https://api.twitter.com/1/account/verify_credentials.json"
 //                                            andParams:nil]];
-//     
+//
 //     NSString *defThumbPath = [[NSBundle mainBundle] pathForResource: @"snappi_icon_g_50" ofType:@"png"];
 //     NSData *imgData = [[NSData alloc] initWithContentsOfFile:defThumbPath];
 //     [req setData:imgData forKey:@"media"];
-//     
+//
 //     // Define this somewhere or replace with your own key inline right here.
 //     [req setPostValue:@"cc3765a58a7a94e65d8e57216acb5056" forKey:@"key"];
-//     
+//
 //     // TwitPic API doc says that message is mandatory, but looks like
 //     // it's actually optional in practice as of July 2010. You may or may not send it, both work.
 //     [req setPostValue:@"hmm what" forKey:@"message"];
-//     
+//
 //     [req startSynchronous];
-//     
-//     
-//     
+//
+//
+//
 //     NSLog(@"Got HTTP status code from TwitPic: %d", [req
 //                                                      responseStatusCode]);
 //     NSDictionary *twitpicResponse = [[req responseString] JSONValue];
-//     textView.text = [NSString stringWithFormat:@"Posted image URL: 
-//                      %@", [twitpicResponse valueForKey:@"url"]]; 
+//     textView.text = [NSString stringWithFormat:@"Posted image URL:
+//                      %@", [twitpicResponse valueForKey:@"url"]];
 //                      [req release];
 
 
@@ -1047,10 +1139,11 @@ OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
                                                        authentication:mAuthTwitter
                                                        appServiceName:kTwitterKeychainItemName
                                                        resourceBundle:nil] autorelease];
-  AppDelegate *appDelegate = (AppDelegate *)[NSApplication sharedApplication];
-  [windowController signInSheetModalForWindow:[appDelegate getIntroWindow] 
-                                     delegate:self 
-          finishedSelector:@selector(windowController:finishedWithAuth:error:)];
+  AppDelegate *appDelegate = (AppDelegate *)[[NSApplication sharedApplication] delegate];
+  NSWindow *window = [appDelegate getIntroWindow];
+  [windowController signInSheetModalForWindow:window
+                                     delegate:self
+                             finishedSelector:@selector(windowController:finishedWithAuth:error:)];
 }
 - (void)signInTwitterFetchStateChanged:(NSNotification *)note {
   // this just lets the user know something is happening during the
@@ -1093,6 +1186,68 @@ OSStatus myHotKeyHandler(EventHandlerCallRef nextHandler, EventRef theEvent,
 
 + (BOOL) twitterAuthSet{
   return [mAuthTwitter hasAccessToken];
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// dropbox
+
+- (IBAction)signInOutDropboxClicked:(id)sender {
+  if ([[DBSession sharedSession] isLinked]) {
+    // The link button turns into an unlink button when you're linked
+    [[DBSession sharedSession] unlinkAll];
+    dbc->restClient = nil;
+    [self updateUI];
+  } else {
+    AppDelegate *appDelegate = (AppDelegate *)[[NSApplication sharedApplication]
+                                               delegate];
+    [appDelegate hideMessage];
+    [[DBAuthHelperOSX sharedHelper] authenticate];
+  }
+}
+
+- (void) authDropbox {
+  NSString *appKey = @"cpzetuskb5zezvy";
+  NSString *appSecret = @"47a5ivbwsq7eg8t";
+  NSString *root = kDBRootAppFolder; // Should be either kDBRootDropbox or kDBRootAppFolder
+  DBSession *session = [[DBSession alloc] initWithAppKey:appKey appSecret:appSecret root:root];
+  [DBSession setSharedSession:session];
+  
+  NSDictionary *plist = [[NSBundle mainBundle] infoDictionary];
+  NSString *actualScheme = [[[[plist objectForKey:@"CFBundleURLTypes"] objectAtIndex:0] objectForKey:@"CFBundleURLSchemes"] objectAtIndex:0];
+  NSString *desiredScheme = [NSString stringWithFormat:@"db-%@", appKey];
+  NSString *alertText = nil;
+  if ([appKey isEqual:@"APP_KEY"] || [appSecret isEqual:@"APP_SECRET"] || root == nil) {
+    alertText = @"Fill in appKey, appSecret, and root in AppDelegate.m to use this app";
+  } else if (![actualScheme isEqual:desiredScheme]) {
+    alertText = [NSString stringWithFormat:@"Set the url scheme to %@ for the OAuth authorize page to work correctly", desiredScheme];
+  }
+  
+  if (alertText) {
+    NSLog(alertText);
+  }
+  
+  [self updateUI];
+  
+  NSAppleEventManager *em = [NSAppleEventManager sharedAppleEventManager];
+  [em setEventHandler:self andSelector:@selector(getUrl:withReplyEvent:)
+        forEventClass:kInternetEventClass andEventID:kAEGetURL];
+  
+  if ([[DBSession sharedSession] isLinked]) {
+  }
+}
+
++ (void) uploadToDropboxPaths:(NSArray *) paths {
+  NSString *path = [paths objectAtIndex:0];
+  [dbc uploadFileWithPath:path];
+}
+
+
+// custom location
+
+- (IBAction)createCustomLocation:(id)sender{
+  AppDelegate *appDelegate = (AppDelegate *)[[NSApplication sharedApplication]
+                                               delegate];
+  [appDelegate showCreateCustomLocation];
 }
 
 /////////// SHORTCUT //////////////////////////////

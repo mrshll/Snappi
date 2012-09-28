@@ -5,6 +5,7 @@
 //  Created by Marshall Moutenot on 5/26/12.
 //
 
+#import <WebKit/WebKit.h>
 
 // class that draws notifications
 @class MAAttachedWindow;
@@ -35,15 +36,25 @@
   IBOutlet NSView *completeView;
   IBOutlet NSView *completeViewWithShare;
   IBOutlet NSView *addCustomInfo;
-
+  IBOutlet NSView *createCustomLocationView;
+    
+  IBOutlet NSView *preferencesView;
+  IBOutlet NSView *introductionView;
+  IBOutlet WebView *introductionWebView;
+    
   // outlet to populate the messages in basic notification
   IBOutlet NSTextField *notificationMsg;
+  IBOutlet NSTextField *loadingMessage;
+  IBOutlet WebView *youtubeWebView;
   // image in complete view. thumb of uploaded image
   IBOutlet NSImageView *uploadThumb;
   // image in complete view with share. thumb of uploaded image
   IBOutlet NSImageView *uploadThumbWithShare;
   // loading bar on uploading view
   IBOutlet NSProgressIndicator *loadingBar;
+@public
+  // button to share on twitter
+  IBOutlet NSButton *twitterShareButton;
 }
 
 // handle on the Introduction.xib window controller
@@ -57,6 +68,10 @@
 
 // allows users to cancel a request like adding custom info
 -(IBAction)cancel:(id)sender;
+
+// displays instructions
+-(IBAction)showIntroductionButtonPressed:(id)sender;
+
 //- (CLLocationManager *) getLocationManager;
 - (void) showIntro;
 
@@ -69,13 +84,16 @@
 - (void) hideMessage;
 - (void) showAddInfo;
 - (void) hideAddInfo;
-- (void) showLoading;
+- (void) showLoading:(NSString*) text;
 - (void) hideLoading;
 - (void) showComplete: (NSImage *) thumb;
 - (void) hideComplete;
 - (void) showCompleteWithShare: (NSImage *) thumb;
 - (void) hideCompleteWithShare;
-
+- (void) showPreferences;
+- (void) showCreateCustomLocation;
+- (void) showIntroduction;
+    
 // getter functions
 - (NSMenu *)          getStatusMenu;
 - (CMDroppableView *) getStatusView;
@@ -85,5 +103,9 @@
 - (BOOL) isCustomInfoSubmitted;
 - (void) resetCustomInfoSubmitted;
 - (BOOL) isFirstRun;
+
+// lets us share via twitter
+- (void) setTwitterButtonLink: (NSString *) link;
+- (NSString *) getTwitterButtonLink;
 
 @end

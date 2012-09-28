@@ -7,7 +7,7 @@
 
 #import "MAAttachedWindow.h"
 
-#define MAATTACHEDWINDOW_DEFAULT_BACKGROUND_COLOR [NSColor colorWithCalibratedWhite:0.1 alpha:0.75]
+#define MAATTACHEDWINDOW_DEFAULT_BACKGROUND_COLOR [NSColor colorWithCalibratedWhite:0.8 alpha:0.90]
 #define MAATTACHEDWINDOW_DEFAULT_BORDER_COLOR [NSColor whiteColor]
 #define MAATTACHEDWINDOW_SCALE_FACTOR [[NSScreen mainScreen] userSpaceScaleFactor]
 
@@ -59,7 +59,7 @@
         _distance = distance;
         
         // Configure window characteristics.
-        [super setBackgroundColor:[NSColor clearColor]];
+        [super setBackgroundColor:[NSColor grayColor]];
         [self setMovableByWindowBackground:NO];
         [self setExcludedFromWindowsMenu:YES];
         [self setAlphaValue:1.0];

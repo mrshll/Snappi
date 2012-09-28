@@ -9,7 +9,7 @@
 #import "AppController.h"
 #import "AppDelegate.h"
 
-extern NSString * const userStoreUri; 
+extern NSString * const userStoreUri;
 extern NSString * const noteStoreUriBase;
 
 @interface EvernoteScreenshot : NSObject <NSApplicationDelegate>{
@@ -34,7 +34,7 @@ extern NSString * const noteStoreUriBase;
 
 - (void) addScreenshotExt:(NSString *) ext;
 
-- (void) connect; 
+- (void) connect;
 
 - (NSArray *) listNotebooks;
 
@@ -50,12 +50,16 @@ extern NSString * const noteStoreUriBase;
 
 - (NSArray *) generateNoteWrapper:(NSArray *)args;
 
-- (NSArray *) generateNote:(NSString *) notebookTitle :(NSString *)putLinkInClipboard :(NSString *)shortenLink :(NSString *) title :(NSString *) addPreview;
+- (NSArray *) generateNoteInNotebook:(NSString *) notebookTitle
+				    inClipboard:(NSString *)putLinkInClipboard
+				    asShortened:(NSString *)shortenLink
+				    withTitle:(NSString *) title
+				    withPreview:(NSString *) addPreview;
 
 - (void) addToClipboard:(NSString *)shareLink;
-    
+
 - (NSString *) getOrCreateNotebook:(NSString *) notebookTitle;
-    
+
 - (NSTask *) getScreenShot;
 
 - (NSTask *) createHash:(NSString *)path;

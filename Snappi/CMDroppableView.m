@@ -135,25 +135,34 @@
 /*         } */
 /*     } */
 
-    NSMutableArray *paths = [NSMutableArray arrayWithCapacity:1];
-    NSArray *pasteboardTypes = [NSArray arrayWithObjects:@"com.apple.pasteboard.promised-file-url", @"public.file-url", nil];
-    for(NSPasteboardItem *item in [[sender draggingPasteboard] pasteboardItems]) {
-      NSString *urlString = nil;
-      for(NSString *type in pasteboardTypes) {
-	if([[item types] containsObject:type]) {
-	urlString = [item stringForType:type];
-	break;
-	}
-      }
-      if(urlString) {
-	NSString *path = [[NSURL URLWithString:urlString] path];
-	[paths addObject:path];
+  NSMutableArray *paths = [NSMutableArray arrayWithCapacity:1];
+  NSMutableArray *exts  = [NSMutableArray arrayWithCapacity:1];
+  NSArray *pasteboardTypes = [NSArray arrayWithObjects:@"com.apple.pasteboard.promised-file-url", @"public.file-url", nil];
+  for(NSPasteboardItem *item in [[sender draggingPasteboard] pasteboardItems]) {
+    NSString *urlString = nil;
+    for(NSString *type in pasteboardTypes) {
+      if([[item types] containsObject:type]) {
+        urlString = [item stringForType:type];
+        break;
       }
     }
-    NSLog(@"Pasted Paths: %@", paths);
-
-    return YES;
+    if(urlString) {
+      urlString = [NSString stringWithUTF8String:[urlString cStringUsingEncoding:[NSString defaultCStringEncoding]]];
+      NSString *path = [[NSURL URLWithString:urlString] path];
+      [paths addObject:path];
+      [exts addObject:[path pathExtension]];
+    }
+  }
+  NSArray *args = [NSArray arrayWithObjects:paths, exts, [NSNumber numberWithBool:true], nil];
+  NSLog(@"About to upload");
+  if (args && [args count] > 0)
+    [AppController performSelector:@selector(uploadWrapper:)
+                                       withObject:args afterDelay:1];
+  
+  return YES;
 }
 
+// /Users/mmoutenot/Music/iTunes/iTunes Media/Music/Flying Lotus/The Do-Over Vol.1/01 Sangria Spin Cycles.mp3
+// /Users/mmoutenot/Music/iTunes/iTunes Media/Music/Flying Lotus/The Do-Over Vol.1/01 Sangria Spin Cycles.mp3
 
 @end

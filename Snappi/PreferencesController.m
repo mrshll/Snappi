@@ -13,7 +13,7 @@
 @synthesize notebookPicker;
 
 -(id)init{
-    if (![super initWithWindowNibName:@"Instructions"])
+    if (![super initWithWindowNibName:@"Preferences"])
         return nil;
     
     return self;

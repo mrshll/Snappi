@@ -12,6 +12,9 @@
 #import "GTMOAuthWindowController.h"
 #import "SRRecorderControl.h"
 #import "FacebookController.h"
+#import "DropboxController.h"
+#import "CustomLocationController.h"
+#import <DropboxOSX/DropboxOSX.h>
 
 // Authentication item. I'm making this global because it needs to be shared
 // across a lot of classes and I couldn't figure out how to make a class's
@@ -19,6 +22,8 @@
 GTMOAuthAuthentication *mAuthEvernote;
 GTMOAuthAuthentication *mAuthTwitter;
 FacebookController *fbc;
+DropboxController *dbc;
+CustomLocationController *clc;
 
 // holds the path to the screenshot for upload to facebook
 NSString *facebookScreenshotPath;
@@ -27,6 +32,7 @@ NSString *facebookScreenshotPath;
 
 @interface AppController : NSObject <NSApplicationDelegate>
 {
+  // drobox authentication object for making rest requests
   @private
     // buttons used to authenticate with various services
     IBOutlet NSButton *evernoteAuthButton;
@@ -40,6 +46,7 @@ NSString *facebookScreenshotPath;
     IBOutlet NSProgressIndicator *facebookSpinner;
     IBOutlet NSProgressIndicator *dropboxSpinner;
 
+  
     IBOutlet NSTabView *instructionsTabView;
     IBOutlet NSTabView *connectTabView;
 
@@ -90,7 +97,13 @@ NSString *facebookScreenshotPath;
 
 // facebook
 - (IBAction)signInOutFacebookClicked:(id)sender;
-- (IBAction) uploadFacebookScreenshot: (id) sender;
+- (IBAction)uploadFacebookScreenshot:(id)sender;
+
+// dropbox
+- (IBAction)signInOutDropboxClicked:(id)sender;
+
+// custom location
+- (IBAction)createCustomLocation:(id)sender;
 
 // used currently to test if twitter is working
 - (void)doAnAuthenticatedAPIFetch;

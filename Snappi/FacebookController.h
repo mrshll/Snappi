@@ -11,11 +11,12 @@
 
 @interface FacebookController: NSObject <PhFacebookDelegate>
 {
-    PhFacebook *fb;
-    
-    NSArray* friends;
-    NSString* selectedFriend;
-    NSString* shareLink;
+  id delegate;
+  PhFacebook *fb;
+  
+  NSArray* friends;
+  NSString* selectedFriend;
+  NSString* shareLink;
 }
 
 - (void) getAccessToken;
@@ -26,6 +27,7 @@
 - (void) setSelectedFriend:(NSString *)taggedUser;
 - (void) setShareLink:(NSString *)link;
 - (BOOL) isSignedIn;
+- (void)setDelegate:(id)delegate;
 - (void) purge;
 
 @end

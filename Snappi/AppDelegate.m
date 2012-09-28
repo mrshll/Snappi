@@ -140,6 +140,12 @@ NSString * const MDBrowserShouldShowIconsKey  = @"MDBrowserShouldShowIcons";
   statusBar = TRUE;
 }
 
+- (IBAction)showIntroductionButtonPressed:(id)sender{
+  AppDelegate *appDelegate = (AppDelegate *)[[NSApplication sharedApplication]
+                                             delegate];
+  [appDelegate showIntroduction];
+}
+
 - (void)showAttachedWindowAtPoint:(NSPoint)pt withView:(NSView *)view
 {
   // Attach/detach window.
@@ -176,7 +182,7 @@ NSString * const MDBrowserShouldShowIconsKey  = @"MDBrowserShouldShowIcons";
 //////// Various Methods for showing/hiding notifications
 
 - (void) showMessage:(NSString *)msg {
-  AppDelegate *appDelegate = (AppDelegate *)[[NSApplication sharedApplication] 
+  AppDelegate *appDelegate = (AppDelegate *)[[NSApplication sharedApplication]
                                                                       delegate];
   notificationMsg.stringValue = msg;
   NSRect frame = [[statusView window] frame];
@@ -209,9 +215,10 @@ NSString * const MDBrowserShouldShowIconsKey  = @"MDBrowserShouldShowIcons";
   [fbc setSelectedFriend:[friendSelector objectValueOfSelectedItem]];
 }
 
-- (void) showLoading {
+- (void) showLoading: (NSString *) text {
   AppDelegate *appDelegate = (AppDelegate *)[[NSApplication sharedApplication] delegate];
 
+  loadingMessage.stringValue = text;
   NSRect frame = [[statusView window] frame];
   NSPoint pt = NSMakePoint(NSMidX(frame), NSMinY(frame));
   [loadingBar startAnimation:self];
@@ -266,6 +273,38 @@ NSString * const MDBrowserShouldShowIconsKey  = @"MDBrowserShouldShowIcons";
   [appDelegate hideAttachedWindow];  
 }
 
+- (void) showPreferences {
+  AppDelegate *appDelegate = (AppDelegate *)[[NSApplication sharedApplication] delegate];
+  
+  NSRect frame = [[statusView window] frame];
+  NSPoint pt = NSMakePoint(NSMidX(frame), NSMinY(frame));
+  
+  [appDelegate showAttachedWindowAtPoint:pt withView:preferencesView];
+}
+
+- (void) showCreateCustomLocation {
+  AppDelegate *appDelegate = (AppDelegate *)[[NSApplication sharedApplication] delegate];
+  
+  NSRect frame = [[statusView window] frame];
+  NSPoint pt = NSMakePoint(NSMidX(frame), NSMinY(frame));
+  
+  [appDelegate showAttachedWindowAtPoint:pt withView:createCustomLocationView];
+}
+
+- (void) showIntroduction {
+  AppDelegate *appDelegate = (AppDelegate *)[[NSApplication sharedApplication] delegate];
+  
+  NSString *embedFrame = @"<iframe width=\"547\" height=\"398\" src=\"http://www.youtube.com/embed/rt7zivSrJeE\" frameborder=\"0\" allowfullscreen></iframe>";
+  
+  [[introductionWebView mainFrame] loadHTMLString:embedFrame baseURL:[NSURL URLWithString:@"http://www.youtube.com"]];
+  NSRect frame = [[statusView window] frame];
+  NSPoint pt = NSMakePoint(NSMidX(frame), NSMinY(frame));
+  
+  [appDelegate showAttachedWindowAtPoint:pt withView:
+      introductionView];
+}
+
+
 //////////////////////////////////////////////////////////////////////
 // GETTER METHODS
 //////////////////////////////////////////////////////////////////////
@@ -297,6 +336,14 @@ NSString * const MDBrowserShouldShowIconsKey  = @"MDBrowserShouldShowIcons";
 
 - (BOOL) isFirstRun{
   return MDFirstRun;
+}
+
+- (void) setTwitterButtonLink: (NSString *)link{
+  [twitterShareButton setAlternateTitle:link];
+}
+
+- (NSString *) getTwitterButtonLink {
+  return twitterShareButton.alternateTitle;
 }
 
 @end

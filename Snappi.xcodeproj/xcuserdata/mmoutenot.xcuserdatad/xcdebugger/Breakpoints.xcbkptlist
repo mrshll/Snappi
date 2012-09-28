@@ -4,42 +4,68 @@
    version = "1.0">
    <FileBreakpoints>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Snappi/AppController.m"
-         timestampString = "366921169.445155"
+         filePath = "Snappi/DropboxController.m"
+         timestampString = "367541295.78296"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "258"
-         endingLineNumber = "258"
-         landmarkName = "myHotKeyHandler()"
-         landmarkType = "7">
+         startingLineNumber = "30"
+         endingLineNumber = "30"
+         landmarkName = "-uploadFileWithPath:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Snappi/EvernoteScreenshot.m"
+         timestampString = "367541705.073221"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "528"
+         endingLineNumber = "528"
+         landmarkName = "-generateNoteInNotebook:inClipboard:asShortened:withTitle:withPreview:"
+         landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Snappi/AppController.m"
-         timestampString = "366921230.164572"
+         filePath = "Snappi/CustomLocationController.m"
+         timestampString = "367543162.472127"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "253"
-         endingLineNumber = "253"
-         landmarkName = "myHotKeyHandler()"
-         landmarkType = "7">
+         startingLineNumber = "25"
+         endingLineNumber = "25"
+         landmarkName = "-uploadFileWithPath:andTakeScreenshot:"
+         landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Snappi/AppController.m"
-         timestampString = "367028628.574163"
+         filePath = "Snappi/AppDelegate.m"
+         timestampString = "368078478.82974"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "493"
-         endingLineNumber = "493"
-         landmarkName = "+uploadToEvernotePaths:withExtensions:ofType:"
+         startingLineNumber = "146"
+         endingLineNumber = "146"
+         landmarkName = "-showIntroductionButtonPressed:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Snappi/FacebookController.m"
+         timestampString = "369330113.979751"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "35"
+         endingLineNumber = "35"
+         landmarkName = "-populateFriends"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -47,38 +73,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Snappi/AppController.m"
-         timestampString = "367028628.574163"
+         timestampString = "370483123.439057"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "926"
-         endingLineNumber = "926"
-         landmarkName = "+sendTweet:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Snappi/AppController.m"
-         timestampString = "367028965.13099"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "482"
-         endingLineNumber = "482"
-         landmarkName = "+uploadToEvernotePaths:withExtensions:ofType:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Snappi/AppController.m"
-         timestampString = "367029029.534645"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "476"
-         endingLineNumber = "476"
-         landmarkName = "+uploadToEvernotePaths:withExtensions:ofType:"
+         startingLineNumber = "76"
+         endingLineNumber = "76"
+         landmarkName = "-awakeFromNib"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -86,38 +86,25 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Snappi/AppController.m"
-         timestampString = "367029332.252807"
+         timestampString = "370483220.694348"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "884"
-         endingLineNumber = "884"
-         landmarkName = "+sendTweet:"
+         startingLineNumber = "188"
+         endingLineNumber = "188"
+         landmarkName = "-signInFacebook"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Snappi/AppController.m"
-         timestampString = "367029583.404605"
+         filePath = "Snappi/FacebookController.m"
+         timestampString = "370483381.345818"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "549"
-         endingLineNumber = "549"
-         landmarkName = "+generateTitle:withExtensions:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Snappi/AppController.m"
-         timestampString = "367029735.413185"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "517"
-         endingLineNumber = "517"
-         landmarkName = "+uploadToEvernotePaths:withExtensions:ofType:"
+         startingLineNumber = "54"
+         endingLineNumber = "54"
+         landmarkName = "-getAccessToken"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -125,25 +112,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Snappi/AppController.m"
-         timestampString = "367031669.45114"
+         timestampString = "370483716.229506"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "790"
-         endingLineNumber = "790"
-         landmarkName = "-signInEvernoteFetchStateChanged:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Snappi/AppController.m"
-         timestampString = "367031677.991026"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "789"
-         endingLineNumber = "789"
-         landmarkName = "-signInEvernoteFetchStateChanged:"
+         startingLineNumber = "696"
+         endingLineNumber = "696"
+         landmarkName = "-updateUI"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
